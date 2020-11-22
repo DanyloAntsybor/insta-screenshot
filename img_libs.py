@@ -1,3 +1,4 @@
+import os
 import cv2
 import pytesseract
 from pytesseract import Output
@@ -43,8 +44,12 @@ def crop_file(image):
 
 def pytesseract_read_img(img):
     print('Start reading image with pytesseract')
-    #pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
-    pytesseract.pytesseract.tesseract_cmd = '/usr/local/Cellar/tesseract/4.1.1/bin/tesseract'
+    if os.environ.get('IS_DEVELOPMENT'):
+        print('Using development pytesseract cmd path')
+        pytesseract.pytesseract.tesseract_cmd = '/usr/local/Cellar/tesseract/4.1.1/bin/tesseract'
+    else:
+        print('Using production pytesseract cmd path')
+        pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
     # configuring parameters for tesseract
     custom_config = r'--oem 3 --psm 6'

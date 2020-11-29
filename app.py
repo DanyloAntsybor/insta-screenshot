@@ -119,4 +119,5 @@ def process_file(file_content):
 
 @app.route('/')
 def test_main_index():
-    print('Hello World!')
+    return 'Hello, World!'
+

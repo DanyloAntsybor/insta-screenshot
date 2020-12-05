@@ -7,6 +7,7 @@ import cv2
 
 from flask import Flask, request
 from img_libs import crop_file, get_user_name
+from airtable_libs import process_client_airtable
 
 app = Flask(__name__)
 
@@ -39,7 +40,8 @@ def get_message_from_telegram():
         print('We have your document!')
         print(data['message']['document'])
         doc_id = data['message']['document']['file_id']
-        get_file_from_tg(doc_id)
+        insta_username = get_file_from_tg(doc_id)
+        prepared_answer['text'] = f'Username on img: {insta_username}'
 
     if 'photo' in data['message'].keys():
         print('We have your photo!')
@@ -48,6 +50,8 @@ def get_message_from_telegram():
         biggest_photo = get_biggest_file_id(data['message']['photo'])
         print(f'Biggest file: {biggest_photo}')
         insta_username = get_file_from_tg(biggest_photo['file_id'])
+        if insta_username:
+            process_client_airtable(insta_username)
         prepared_answer['text'] = f'Username on img: {insta_username}'
 
     if 'text' in data['message'].keys():

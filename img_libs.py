@@ -33,7 +33,7 @@ def crop_file(image):
     original_width = image.shape[1]
 
     x1 = int(100 * original_height / 2400)
-    x2 = int(175 * original_height / 2400)
+    x2 = int(190 * original_height / 2400)
     y1 = int(270 * original_width / 1080)
     y2 = int(830 * original_width / 1080)
 
@@ -65,9 +65,16 @@ def get_user_name(user_name_img):
     print('Text from image:')
     print(details['text'])
     # print(details)
-    conf_threshold = 30  # this is the confidence from 0 to 100 from pytesseract
+    conf_threshold = 70  # this is the confidence from 0 to 100 from pytesseract
+    print('Use 70 conf_threshold')
     text_list = [details['text'][i] for i, item in enumerate(details['conf']) if int(item) > conf_threshold]
     parsed_text = ''.join(text_list)
+
+    if not parsed_text:
+        print('Use 30 conf_threshold')
+        conf_threshold = 30  # this is the confidence from 0 to 100 from pytesseract
+        text_list = [details['text'][i] for i, item in enumerate(details['conf']) if int(item) > conf_threshold]
+        parsed_text = ''.join(text_list)
 
     print(parsed_text)
     return parsed_text

@@ -60,6 +60,11 @@ def pytesseract_read_img(img):
     return details
 
 
+def remove_end_start_str(input_str):
+    chars_to_remove = '[]()-~'
+    return input_str.strip(chars_to_remove)
+
+
 def get_user_name(user_name_img):
     details = pytesseract_read_img(user_name_img)
     print('Text from image:')
@@ -67,13 +72,15 @@ def get_user_name(user_name_img):
     # print(details)
     conf_threshold = 70  # this is the confidence from 0 to 100 from pytesseract
     print('Use 70 conf_threshold')
-    text_list = [details['text'][i] for i, item in enumerate(details['conf']) if int(item) > conf_threshold]
+    text_list = [remove_end_start_str(details['text'][i]) for i, item in enumerate(details['conf'])
+                 if int(item) > conf_threshold]
     parsed_text = ''.join(text_list)
 
-    if not parsed_text:
+    if not parsed_text or len(parsed_text) < 3:
         print('Use 30 conf_threshold')
         conf_threshold = 30  # this is the confidence from 0 to 100 from pytesseract
-        text_list = [details['text'][i] for i, item in enumerate(details['conf']) if int(item) > conf_threshold]
+        text_list = [remove_end_start_str(details['text'][i]) for i, item in enumerate(details['conf'])
+                     if int(item) > conf_threshold]
         parsed_text = ''.join(text_list)
 
     print(parsed_text)

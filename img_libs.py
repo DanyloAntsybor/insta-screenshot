@@ -61,8 +61,11 @@ def pytesseract_read_img(img):
 
 
 def remove_end_start_str(input_str):
+    print(f'Start cleaning string. String before: {input_str}')
     chars_to_remove = '[]()-~'
-    return input_str.strip(chars_to_remove)
+    output_str = input_str.strip(chars_to_remove)
+    print(f'String after: {output_str}')
+    return output_str
 
 
 def get_user_name(user_name_img):

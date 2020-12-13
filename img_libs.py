@@ -61,6 +61,9 @@ def pytesseract_read_img(img):
 
 
 def remove_end_start_str(input_str):
+    """
+    Sometimes we have chars parsed not from string and this function will clean it up
+    """
     print(f'Start cleaning string. String before: {input_str}')
     chars_to_remove = '[]()-~'
     output_str = input_str.strip(chars_to_remove)

@@ -1,0 +1,6 @@
+
+.env_development
+*.jpg
+__pycache__*
+helper.txt
+.DS_Store
